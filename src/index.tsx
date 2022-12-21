@@ -8,6 +8,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import AuthPage from "./pages/AuthPage";
+import CustomerPage from "./pages/CustomerPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -18,7 +19,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AuthPage />} />
-          <Route path="/app" element={<App />} />
+          <Route path="/app" element={<CustomerPage />} />
         </Routes>
       </BrowserRouter>
     </Provider>

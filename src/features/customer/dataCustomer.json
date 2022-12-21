@@ -1,0 +1,39 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": 1,
+      "name": "Hailee Zulauf I",
+      "memo": "Tenetur iure provident voluptatum ut maxime eveniet sequi. Totam dolor repellat quisquam aut minus ut iste. Et similique quibusdam eum impedit aut tempore.",
+      "tel": "+1-320-423-8123",
+      "email": "pouros.cleora@bogan.net",
+      "url": "https://github.com/shundahoy",
+      "created_at": "2004-09-18T04:09:04.000000Z",
+      "updated_at": "2022-12-16T08:39:14.000000Z",
+      "progress_id": 1,
+      "progress": {
+        "id": 1,
+        "name": "未着手",
+        "created_at": null,
+        "updated_at": null
+      }
+    }
+  ],
+  "first_page_url": "http://127.0.0.1:8000/api/customer?page=1",
+  "from": 1,
+  "last_page": 4,
+  "last_page_url": "http://127.0.0.1:8000/api/customer?page=4",
+  "links": [
+    {
+      "url": "http://127.0.0.1:8000/api/customer?page=1",
+      "label": "1",
+      "active": true
+    }
+  ],
+  "next_page_url": "http://127.0.0.1:8000/api/customer?page=2",
+  "path": "http://127.0.0.1:8000/api/customer",
+  "per_page": 15,
+  "prev_page_url": null,
+  "to": 15,
+  "total": 60
+}
