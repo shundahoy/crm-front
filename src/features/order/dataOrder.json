@@ -1,0 +1,89 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": 29,
+      "customer_id": 26,
+      "status_id": 1,
+      "created_at": "2022-12-16T08:39:15.000000Z",
+      "updated_at": "2022-12-16T08:39:15.000000Z",
+      "products": [
+        {
+          "id": 10,
+          "name": "Mr. Craig Krajcik",
+          "memo": "Amet cum minus dolore libero. Sit recusandae exercitationem doloribus quis culpa corporis quos. Aliquid esse id dolor omnis. Mollitia vero laudantium voluptates nemo dignissimos deserunt sed.",
+          "price": 978,
+          "created_at": "1982-06-23T22:25:52.000000Z",
+          "updated_at": "2022-12-16T08:39:14.000000Z",
+          "pivot": {
+            "order_id": 29,
+            "product_id": 10,
+            "quantity": 1
+          }
+        },
+        {
+          "id": 13,
+          "name": "Miss Jane Senger DDS",
+          "memo": "Quaerat nostrum quo laboriosam saepe ab laboriosam. Consequuntur labore et nihil. Voluptatibus quaerat maiores adipisci velit repellendus commodi quia et.",
+          "price": 163,
+          "created_at": "1982-02-03T17:15:27.000000Z",
+          "updated_at": "2022-12-16T08:39:14.000000Z",
+          "pivot": {
+            "order_id": 29,
+            "product_id": 13,
+            "quantity": 1
+          }
+        }
+      ],
+      "status": {
+        "id": 1,
+        "name": "未着手",
+        "created_at": null,
+        "updated_at": null
+      },
+      "customer": {
+        "id": 26,
+        "name": "Delbert Rutherford",
+        "memo": "Eveniet velit occaecati nam. Porro dicta quo neque quis dolore a. Est doloremque maxime delectus accusantium consectetur omnis est.",
+        "tel": "217-648-6998",
+        "email": "german.lehner@borer.org",
+        "url": "https://github.com/shundahoy",
+        "created_at": "2019-12-29T11:02:46.000000Z",
+        "updated_at": "2022-12-21T07:02:02.000000Z",
+        "progress_id": 3
+      }
+    }
+  ],
+  "first_page_url": "http://127.0.0.1:8000/api/order?page=1",
+  "from": 1,
+  "last_page": 2,
+  "last_page_url": "http://127.0.0.1:8000/api/order?page=2",
+  "links": [
+    {
+      "url": null,
+      "label": "&laquo; Previous",
+      "active": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/order?page=1",
+      "label": "1",
+      "active": true
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/order?page=2",
+      "label": "2",
+      "active": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/order?page=2",
+      "label": "Next &raquo;",
+      "active": false
+    }
+  ],
+  "next_page_url": "http://127.0.0.1:8000/api/order?page=2",
+  "path": "http://127.0.0.1:8000/api/order",
+  "per_page": 15,
+  "prev_page_url": null,
+  "to": 15,
+  "total": 17
+}

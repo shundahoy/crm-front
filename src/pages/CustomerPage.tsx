@@ -7,6 +7,7 @@ import {
   fetchAsyncGetMyProf,
 } from "../features/auth/authSlice";
 import {
+  createCustomer,
   deleteCustomer,
   fetchAsyncGetCustomer,
   fetchAsyncGetProgress,
@@ -16,6 +17,9 @@ import {
 } from "../features/customer/customerSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { linkSync } from "fs";
+import PageNation from "../components/PageNation";
+import { selectStatuses } from "../features/order/orderSlice";
 
 const CustomerPage = () => {
   const updateNotify = () => toast(`保存しました。`);
@@ -46,8 +50,8 @@ const CustomerPage = () => {
       <ToastContainer />
       <div className="">
         <h2 className="text-3xl text-center">顧客一覧</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mt-4">
-          <div className="col-span-1 lg:col-span-3">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
+          <div className="col-span-1 lg:col-span-2">
             <button
               onClick={() => {
                 setId(null);
@@ -56,7 +60,7 @@ const CustomerPage = () => {
                 setEmail("");
                 setTel("");
                 setMemo("");
-                setProgress_id(0);
+                setProgress_id(1);
               }}
               className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 mb-4"
             >
@@ -109,6 +113,13 @@ const CustomerPage = () => {
                 ))}
               </tbody>
             </table>
+            <PageNation
+              from={customers.from}
+              to={customers.to}
+              total={customers.total}
+              links={customers.links}
+              last_page={customers.last_page}
+            />
           </div>
           <div className="grid-cols-1 lg:col-span-2">
             {id ? (
@@ -202,7 +213,6 @@ const CustomerPage = () => {
                                 setProgress_id(e.target.value)
                               }
                               value={progress_id}
-                              defaultValue={progress_id}
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {allProgress.map((item) => (
@@ -354,6 +364,16 @@ const CustomerPage = () => {
                       <div className="bg-gray-50 px-4 py-3 text-right sm:px-6 flex gap-4">
                         <button
                           onClick={() => {
+                            dispatch(
+                              createCustomer({
+                                name,
+                                tel,
+                                url,
+                                email,
+                                progress_id,
+                                memo,
+                              })
+                            );
                             updateNotify();
                             setId(null);
                             setName("");

@@ -20,11 +20,55 @@ export interface REGISTER_FORM {
 }
 
 export interface POST_CUSTOMER {
-  id: number;
+  id?: number;
   name: string;
   memo: string;
   tel: string;
   email: string;
   url: string;
   progress_id: number;
+}
+
+export interface CART {
+  id: number;
+  name: string;
+  memo: string;
+  price: number;
+  quantity?: number;
+  created_at?: string | any;
+  updated_at?: string | any;
+}
+export interface PRODUCT {
+  id: number;
+  name: string;
+  memo: string;
+  price: number;
+  created_at?: string | any;
+  updated_at?: string | any;
+  pivot: {
+    order_id: number;
+    product_id: number;
+    quantity: number;
+  };
+}
+
+export interface UPDATE_ORDER {
+  order_id: number;
+  status_id: number;
+  customer_id: number;
+  products: POST_PRODUCTS[];
+}
+
+export interface POST_CART {
+  id: number;
+  name: string;
+  memo: string;
+  price: number;
+  quantity: number;
+  created_at?: string | any;
+  updated_at?: string | any;
+}
+export interface POST_PRODUCTS {
+  product_id: number;
+  quantity: number;
 }

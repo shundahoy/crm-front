@@ -67,7 +67,7 @@ export const authSlice = createSlice({
     builder
       .addCase(fetchAsyncLogin.fulfilled, (state, action) => {
         localStorage.setItem("localJWT", action.payload.jwt);
-        action.payload.jwt && (window.location.href = "/app");
+        action.payload.jwt && (window.location.href = "/customer");
       })
       .addCase(fetchAsyncGetMyProf.fulfilled, (state, action) => {
         state.id = action.payload.id;

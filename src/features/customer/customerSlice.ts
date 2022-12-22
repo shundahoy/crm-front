@@ -89,6 +89,29 @@ export const deleteCustomer = createAsyncThunk(
   }
 );
 
+export const createCustomer = createAsyncThunk(
+  "createCustomer",
+  async (post: POST_CUSTOMER) => {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/customer`,
+      {
+        name: post.name,
+        email: post.email,
+        memo: post.memo,
+        tel: post.tel,
+        url: post.url,
+        progress_id: post.progress_id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  }
+);
 export const customerSlice = createSlice({
   name: "customer",
   initialState,
@@ -119,6 +142,12 @@ export const customerSlice = createSlice({
         window.location.href = "/";
       })
       .addCase(deleteCustomer.rejected, (state, action) => {
+        window.location.href = "/";
+      })
+      .addCase(createCustomer.fulfilled, (state, action) => {
+        state.customers.data = [action.payload, ...state.customers.data];
+      })
+      .addCase(createCustomer.rejected, (state, action) => {
         window.location.href = "/";
       });
   },
