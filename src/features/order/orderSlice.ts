@@ -77,6 +77,21 @@ export const updateOrder = createAsyncThunk(
   }
 );
 
+export const deleteOrder = createAsyncThunk(
+  "deleteOrder",
+  async (id: number) => {
+    const res = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/order/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  }
+);
 export const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -148,6 +163,14 @@ export const orderSlice = createSlice({
         );
       })
       .addCase(updateOrder.rejected, (state, action) => {
+        window.location.href = "/";
+      })
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        state.orders.data = state.orders.data.filter(
+          (t) => t.id !== action.payload
+        );
+      })
+      .addCase(deleteOrder.rejected, (state, action) => {
         window.location.href = "/";
       });
   },

@@ -72,3 +72,15 @@ export interface POST_PRODUCTS {
   product_id: number;
   quantity: number;
 }
+
+export interface SEARCH_RESULT {
+  id: number;
+  name: string;
+  memo: string;
+  tel: string;
+  email: string;
+  url: string;
+  created_at: string;
+  updated_at: string;
+  progress_id: number;
+}

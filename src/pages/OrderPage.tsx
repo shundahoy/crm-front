@@ -2,21 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../app/store";
 import Layout from "../components/Layout";
-import {
-  createCustomer,
-  deleteCustomer,
-  fetchAsyncGetCustomer,
-  fetchAsyncGetProgress,
-  selectCustomers,
-  selectProgress,
-  updateCustomer,
-} from "../features/customer/customerSlice";
+import Modal from "react-modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import PageNation from "../components/PageNation";
 import {
   changeCartItem,
+  deleteOrder,
   fetchAsyncGetOrders,
   fetchAsyncGetStatus,
   resetCartItem,
@@ -30,7 +23,9 @@ import {
   fetchAsyncGetProducts,
   selectProducts,
 } from "../features/product/productSlice";
-import { POST_PRODUCTS } from "../features/types";
+import { POST_PRODUCTS, SEARCH_RESULT } from "../features/types";
+import OrderPageNation from "../components/OrderPageNation";
+import axios from "axios";
 
 const OrderPage = () => {
   const updateNotify = () => toast(`保存しました。`);
@@ -58,8 +53,23 @@ const OrderPage = () => {
     name: "",
   });
   const [status, setStatus] = useState(1);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [result, setResult] = useState<SEARCH_RESULT[]>([]);
 
-  console.log(cart);
+  const searchCustomer = async (query: string) => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/customer?search=${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    setResult(res.data);
+  };
+
   return (
     <Layout>
       <ToastContainer />
@@ -128,7 +138,7 @@ const OrderPage = () => {
                 ))}
               </tbody>
             </table>
-            <PageNation
+            <OrderPageNation
               from={orders.from}
               to={orders.to}
               total={orders.total}
@@ -160,8 +170,8 @@ const OrderPage = () => {
                             </label>
                             <input
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
-                              disabled
                               value={customer.name}
+                              onClick={() => setIsOpen(true)}
                             />
                           </div>
                           <div className="col-span-6 sm:col-span-2">
@@ -254,7 +264,16 @@ const OrderPage = () => {
                         >
                           保存
                         </button>
-                        <button className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        <button
+                          onClick={async () => {
+                            await dispatch(deleteOrder(id));
+                            deleteNotify(id);
+                            setCustomer({ id: 0, name: "" });
+                            setStatus(1);
+                            setId(null);
+                          }}
+                          className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
                           削除
                         </button>
                       </div>
@@ -270,6 +289,60 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={modalIsOpen}>
+        <button onClick={() => setIsOpen(false)}>Close Modal</button>
+        <div className="flex lg:w-[50%] w-full sm:flex-row flex-col mx-auto px-2 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end container">
+          <div className="relative flex-grow w-full lg:w-2/3">
+            <label className="leading-7 text-sm text-gray-600">名前</label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              value={search}
+              className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <button
+            onClick={() => searchCustomer(search)}
+            className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded"
+          >
+            検索
+          </button>
+        </div>
+        <div className="mt-4 lg:w-[40%] w-full mx-auto overflow-auto">
+          <table className="table-auto w-full text-left whitespace-no-wrap">
+            <thead>
+              <tr>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                  ID
+                </th>
+                <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                  名前
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {result &&
+                result.map((customer) => (
+                  <tr
+                    className="cursor-pointer hover:bg-gray-200"
+                    onClick={() => {
+                      setCustomer({
+                        id: customer.id,
+                        name: customer.name,
+                      });
+                      setIsOpen(false);
+                    }}
+                  >
+                    <td className="px-4 py-3">{customer.id}</td>
+                    <td className="px-4 py-3">{customer.name}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </Modal>
     </Layout>
   );
 };
