@@ -12,7 +12,7 @@ export interface PROPS {
   last_page: number;
 }
 
-const OrderPageNation = (props: PROPS) => {
+const ProductPageNation = (props: PROPS) => {
   const dispatch: AppDispatch = useDispatch();
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
@@ -62,4 +62,4 @@ const OrderPageNation = (props: PROPS) => {
   );
 };
 
-export default OrderPageNation;
+export default ProductPageNation;

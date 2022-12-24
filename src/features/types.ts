@@ -59,6 +59,12 @@ export interface UPDATE_ORDER {
   products: POST_PRODUCTS[];
 }
 
+export interface CREATE_ORDER {
+  status_id: number;
+  customer_id: number;
+  products: POST_PRODUCTS[];
+}
+
 export interface POST_CART {
   id: number;
   name: string;
@@ -83,4 +89,17 @@ export interface SEARCH_RESULT {
   created_at: string;
   updated_at: string;
   progress_id: number;
+}
+
+export interface UPDATE_PRODUCT {
+  product_id: number;
+  name: string;
+  memo: string;
+  price: number;
+}
+
+export interface POST_PRODUCT {
+  name: string;
+  memo: string;
+  price: number;
 }

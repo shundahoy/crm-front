@@ -3,6 +3,7 @@ import axios from "axios";
 import { RootState, AppThunk } from "../../app/store";
 import {
   CART,
+  CREATE_ORDER,
   POST_CART,
   POST_CUSTOMER,
   PRODUCT,
@@ -77,6 +78,26 @@ export const updateOrder = createAsyncThunk(
   }
 );
 
+export const createOrder = createAsyncThunk(
+  "createOrder",
+  async (post: CREATE_ORDER) => {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/order/`,
+      {
+        status_id: post.status_id,
+        customer_id: post.customer_id,
+        products: post.products,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  }
+);
 export const deleteOrder = createAsyncThunk(
   "deleteOrder",
   async (id: number) => {
@@ -98,6 +119,7 @@ export const orderSlice = createSlice({
   reducers: {
     setCartItem: (state, action) => {
       state.cart = [];
+
       action.payload.allProducts.map((product: CART) => {
         let isItem: PRODUCT[] = action.payload.cartProducts.filter(
           (cartItem: PRODUCT) => product.id === cartItem.id
@@ -141,6 +163,19 @@ export const orderSlice = createSlice({
     resetCartItem: (state) => {
       state.cart = [];
     },
+    initialCart: (state, action) => {
+      state.cart = [];
+      action.payload.allProducts.map((product: CART) => {
+        let newItem: POST_CART = {
+          id: product.id,
+          name: product.name,
+          memo: product.memo,
+          quantity: 0,
+          price: product.price,
+        };
+        state.cart = [...state.cart, { ...newItem }];
+      });
+    },
   },
 
   extraReducers: (builder) => {
@@ -172,6 +207,12 @@ export const orderSlice = createSlice({
       })
       .addCase(deleteOrder.rejected, (state, action) => {
         window.location.href = "/";
+      })
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.orders.data = [action.payload, ...state.orders.data];
+      })
+      .addCase(createOrder.rejected, (state, action) => {
+        window.location.href = "/";
       });
   },
 });
@@ -180,6 +221,6 @@ export const selectOrders = (state: RootState) => state.order.orders;
 export const selectStatuses = (state: RootState) => state.order.statuses;
 export const selectCart = (state: RootState) => state.order.cart;
 
-export const { setCartItem, changeCartItem, resetCartItem } =
+export const { setCartItem, changeCartItem, resetCartItem, initialCart } =
   orderSlice.actions;
 export default orderSlice.reducer;

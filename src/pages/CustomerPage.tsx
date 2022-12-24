@@ -43,7 +43,7 @@ const CustomerPage = () => {
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
   const [progress_id, setProgress_id] = useState<number>(0);
-  const [memo, setMemo] = useState<string>("");
+  const [memo, setMemo] = useState("");
 
   return (
     <Layout>
@@ -200,7 +200,7 @@ const CustomerPage = () => {
                             <textarea
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2 min-h-[200px]"
                               onChange={(e) => setMemo(e.target.value)}
-                              value={memo}
+                              value={memo ? memo : ""}
                             ></textarea>
                           </div>
 
@@ -338,7 +338,7 @@ const CustomerPage = () => {
                             <textarea
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2 min-h-[200px]"
                               onChange={(e) => setMemo(e.target.value)}
-                              value={memo}
+                              value={memo ? memo : ""}
                             ></textarea>
                           </div>
 

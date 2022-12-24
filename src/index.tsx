@@ -10,6 +10,7 @@ import { Route, Routes } from "react-router";
 import AuthPage from "./pages/AuthPage";
 import CustomerPage from "./pages/CustomerPage";
 import OrderPage from "./pages/OrderPage";
+import ProductPage from "./pages/ProductPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -22,6 +23,7 @@ root.render(
           <Route path="/" element={<AuthPage />} />
           <Route path="/customer" element={<CustomerPage />} />
           <Route path="/order" element={<OrderPage />} />
+          <Route path="/product" element={<ProductPage />} />
         </Routes>
       </BrowserRouter>
     </Provider>

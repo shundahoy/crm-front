@@ -6,13 +6,13 @@ import Modal from "react-modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import PageNation from "../components/PageNation";
 import {
   changeCartItem,
+  createOrder,
   deleteOrder,
   fetchAsyncGetOrders,
   fetchAsyncGetStatus,
-  resetCartItem,
+  initialCart,
   selectCart,
   selectOrders,
   selectStatuses,
@@ -37,6 +37,17 @@ const OrderPage = () => {
       await dispatch(fetchAsyncGetProducts());
       await dispatch(fetchAsyncGetStatus());
       await dispatch(fetchAsyncGetOrders(1));
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.localJWT}`,
+          "Content-Type": "application/json",
+        },
+      });
+      await dispatch(
+        initialCart({
+          allProducts: res.data,
+        })
+      );
     };
     fetchBootLoader();
   }, []);
@@ -82,6 +93,11 @@ const OrderPage = () => {
                 setId(null);
                 setCustomer({ id: 0, name: "" });
                 setStatus(1);
+                dispatch(
+                  initialCart({
+                    allProducts,
+                  })
+                );
               }}
               className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0 mb-4"
             >
@@ -159,7 +175,7 @@ const OrderPage = () => {
                               ID
                             </label>
                             <input
-                              disabled
+                              readOnly
                               value={id}
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
                             />
@@ -169,6 +185,7 @@ const OrderPage = () => {
                               注文者
                             </label>
                             <input
+                              readOnly
                               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
                               value={customer.name}
                               onClick={() => setIsOpen(true)}
@@ -184,7 +201,9 @@ const OrderPage = () => {
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {allStatuses.map((item) => (
-                                <option value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -258,7 +277,11 @@ const OrderPage = () => {
                             setId(null);
                             setCustomer({ id: 0, name: "" });
                             setStatus(1);
-                            dispatch(resetCartItem);
+                            dispatch(
+                              initialCart({
+                                allProducts,
+                              })
+                            );
                           }}
                           className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
@@ -283,7 +306,121 @@ const OrderPage = () => {
               </>
             ) : (
               <>
-                <div className="mt-5 md:col-span-2 md:mt-0"></div>
+                {}
+                <div className="mt-5 md:col-span-2 md:mt-0">
+                  <div>
+                    <div className="overflow-hidden shadow sm:rounded-md">
+                      <div className="bg-white px-4 py-5 sm:p-6">
+                        <div className="grid grid-cols-6 gap-6">
+                          <div className="col-span-6 sm:col-span-3">
+                            <label className="block text-sm font-medium text-gray-700">
+                              注文者
+                            </label>
+                            <input
+                              readOnly
+                              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+                              value={customer.name}
+                              onClick={() => setIsOpen(true)}
+                            />
+                          </div>
+                          <div className="col-span-6 sm:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700">
+                              進捗
+                            </label>
+                            <select
+                              onChange={(e: any) => setStatus(e.target.value)}
+                              value={status}
+                              className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                            >
+                              {allStatuses.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {cart.map((item) => (
+                            <div
+                              className="col-span-6 sm:col-span-6 flex gap-4 items-center"
+                              key={item.id}
+                            >
+                              <label className="block text-sm font-medium text-gray-700 flex-1">
+                                {item.name}
+                              </label>
+                              <div className="relative mt-1 rounded-md shadow-sm">
+                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                  <span className="text-gray-500 sm:text-sm">
+                                    ￥
+                                  </span>
+                                </div>
+                                <input
+                                  type="text"
+                                  name="price"
+                                  className="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 flex-1"
+                                  disabled
+                                  value={item.price}
+                                />
+                                <div className="absolute inset-y-0 right-0 flex items-center">
+                                  <div className="rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 flex-1">
+                                    JPY
+                                  </div>
+                                </div>
+                              </div>
+                              <input
+                                type="number"
+                                className="mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2 flex-1"
+                                value={item.quantity}
+                                name="quantity"
+                                onChange={(e) => {
+                                  dispatch(
+                                    changeCartItem({
+                                      id: item.id,
+                                      inputName: e.target.name,
+                                      data: e.target.value,
+                                    })
+                                  );
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 px-4 py-3 text-right sm:px-6 flex gap-4">
+                        <button
+                          onClick={() => {
+                            let newItems = cart.filter((i) => i.quantity > 0);
+                            let postItems: POST_PRODUCTS[] = [];
+                            newItems.map((item) => {
+                              postItems.push({
+                                product_id: item.id,
+                                quantity: item.quantity,
+                              });
+                            });
+                            dispatch(
+                              createOrder({
+                                customer_id: customer.id,
+                                products: postItems,
+                                status_id: status,
+                              })
+                            );
+                            setId(null);
+                            setCustomer({ id: 0, name: "" });
+                            setStatus(1);
+                            dispatch(
+                              initialCart({
+                                allProducts,
+                              })
+                            );
+                          }}
+                          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          新規作成
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
           </div>
@@ -327,6 +464,7 @@ const OrderPage = () => {
                 result.map((customer) => (
                   <tr
                     className="cursor-pointer hover:bg-gray-200"
+                    key={customer.id}
                     onClick={() => {
                       setCustomer({
                         id: customer.id,
