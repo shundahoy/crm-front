@@ -2,13 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-.progressid-3 {
-  color: rgb(112, 226, 255);
-}
-.progressid-4 {
-  color: rgb(112, 226, 255);
+.progressid-1 {
+  color: #d93047;
 }
 
-.progressid-1 {
-  color: rgb(255, 50, 50);
+.progressid-2 {
+  color: #f89c35;
+}
+.progressid-3 {
+  color: #9aba00;
+}
+.progressid-4 {
+  color: #018381;
+}
+.progressid-5 {
+  color: #005693;
+}
+.progressid-6 {
+  color: #722873;
 }

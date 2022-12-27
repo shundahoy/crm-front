@@ -27,10 +27,18 @@ const Layout = (props: Props) => {
             <img src="logo.png" alt="" className="w-[120px]" />
           </a>
           <nav className="md:mr-auto flex flex-wrap items-center text-base justify-center">
-            <a className="mr-5 hover:text-gray-900">First Link</a>
-            <a className="mr-5 hover:text-gray-900">Second Link</a>
-            <a className="mr-5 hover:text-gray-900">Third Link</a>
-            <a className="mr-5 hover:text-gray-900">Fourth Link</a>
+            <a href="/customer" className="mr-5 hover:text-gray-900">
+              顧客一覧
+            </a>
+            <a href="/order" className="mr-5 hover:text-gray-900">
+              注文一覧
+            </a>
+            <a href="/product" className="mr-5 hover:text-gray-900">
+              商品一覧
+            </a>
+            <a href="/chart" className="mr-5 hover:text-gray-900">
+              チャート
+            </a>
           </nav>
           <p className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
             {loginUser.name}

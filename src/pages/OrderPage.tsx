@@ -149,7 +149,11 @@ const OrderPage = () => {
                           return sum + element;
                         }, 0)}
                     </td>
-                    <td className="px-4 py-3">{order.status.name}</td>
+                    <td
+                      className={`px-4 py-3 text-lg text-gray-900 progressid-${order.status_id}`}
+                    >
+                      {order.status.name}
+                    </td>
                   </tr>
                 ))}
               </tbody>

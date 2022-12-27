@@ -2,24 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../app/store";
 import Layout from "../components/Layout";
-import {
-  selectLoginUser,
-  fetchAsyncGetMyProf,
-} from "../features/auth/authSlice";
-import {
-  createCustomer,
-  deleteCustomer,
-  fetchAsyncGetCustomer,
-  fetchAsyncGetProgress,
-  selectCustomers,
-  selectProgress,
-  updateCustomer,
-} from "../features/customer/customerSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { linkSync } from "fs";
-import PageNation from "../components/PageNation";
-import { selectStatuses } from "../features/order/orderSlice";
 import {
   createProduct,
   deleteProduct,
@@ -27,7 +11,6 @@ import {
   selectProducts,
   updateProduct,
 } from "../features/product/productSlice";
-import ProductPageNation from "../components/ProductPageNation";
 
 const ProductPage = () => {
   const updateNotify = () => toast(`保存しました。`);
