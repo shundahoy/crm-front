@@ -7,6 +7,7 @@ const initialState: LOGIN_USER = {
   id: 0,
   name: "",
   email: "",
+  isloading: false,
 };
 
 export const fetchAsyncRegister = createAsyncThunk(
@@ -58,10 +59,31 @@ export const fetchAsyncGetMyProf = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk("auth/logout", async () => {
+  const res = await axios.post(
+    `${process.env.REACT_APP_API_URL}/logout`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.localJWT}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return res.data;
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    startLoading: (state) => {
+      state.isloading = true;
+    },
+    endLoading: (state) => {
+      state.isloading = false;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -76,12 +98,20 @@ export const authSlice = createSlice({
       })
       .addCase(fetchAsyncGetMyProf.rejected, (state, action) => {
         window.location.href = "/";
+      })
+      .addCase(logout.fulfilled, (state) => {
+        localStorage.removeItem("localJWT");
+        window.location.href = "/";
+      })
+      .addCase(logout.rejected, (state, action) => {
+        window.location.href = "/";
       });
   },
 });
 
-// export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { startLoading, endLoading } = authSlice.actions;
 
 export const selectLoginUser = (state: RootState) => state.auth;
+export const selectIsLoading = (state: RootState) => state.auth.isloading;
 
 export default authSlice.reducer;

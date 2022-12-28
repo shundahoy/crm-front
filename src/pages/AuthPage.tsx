@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../app/store";
 import {
@@ -13,6 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 const AuthPage = () => {
   const notify = (name: string) =>
     toast(`${name}さんを登録しました、ログインしてください`);
+
+  useEffect(() => {
+    if (localStorage.getItem("localJWT")) {
+      window.location.href = "/customer";
+    }
+  }, []);
+
   const dispatch: AppDispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

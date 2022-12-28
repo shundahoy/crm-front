@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../app/store";
 import {
   fetchAsyncGetMyProf,
+  logout,
+  selectIsLoading,
   selectLoginUser,
 } from "../features/auth/authSlice";
 import { fetchAsyncGetCustomer } from "../features/customer/customerSlice";
@@ -19,6 +21,7 @@ const Layout = (props: Props) => {
     fetchBootLoader();
   }, []);
   const loginUser = useSelector(selectLoginUser);
+  const isLoading = useSelector(selectIsLoading);
   return (
     <div className="bg-gray-300">
       <header className="text-gray-600 body-font bg-white">
@@ -40,15 +43,20 @@ const Layout = (props: Props) => {
               チャート
             </a>
           </nav>
-          <p className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+          <button
+            onClick={async () => {
+              await dispatch(logout());
+            }}
+            className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+          >
             {loginUser.name}
-          </p>
+          </button>
         </div>
       </header>
 
       <div className="p-4">
         <main className="container mx-auto px-4 py-8 min-h-[100vh] bg-white my-8 rounded-2xl">
-          {props.children}
+          {isLoading ? <p>loading</p> : props.children}
         </main>
       </div>
     </div>

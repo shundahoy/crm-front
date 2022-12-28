@@ -5,6 +5,9 @@ import Layout from "../components/Layout";
 import {
   selectLoginUser,
   fetchAsyncGetMyProf,
+  selectIsLoading,
+  startLoading,
+  endLoading,
 } from "../features/auth/authSlice";
 import {
   createCustomer,
@@ -28,8 +31,10 @@ const CustomerPage = () => {
 
   useEffect(() => {
     const fetchBootLoader = async () => {
+      await dispatch(startLoading());
       await dispatch(fetchAsyncGetCustomer(1));
       await dispatch(fetchAsyncGetProgress());
+      await dispatch(endLoading());
     };
     fetchBootLoader();
   }, []);
@@ -216,7 +221,9 @@ const CustomerPage = () => {
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {allProgress.map((item) => (
-                                <option value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
                               ))}
                             </select>
                           </div>
@@ -351,11 +358,12 @@ const CustomerPage = () => {
                                 setProgress_id(e.target.value)
                               }
                               value={progress_id}
-                              defaultValue={progress_id}
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {allProgress.map((item) => (
-                                <option value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
                               ))}
                             </select>
                           </div>

@@ -32,6 +32,7 @@ const PageNation = (props: PROPS) => {
               if (i !== 0 && i !== props.last_page + 1) {
                 return link.active ? (
                   <a
+                    key={i}
                     onClick={async () => {
                       await dispatch(fetchAsyncGetCustomer(i));
                     }}
@@ -42,6 +43,7 @@ const PageNation = (props: PROPS) => {
                   </a>
                 ) : (
                   <a
+                    key={i}
                     onClick={async () => {
                       await dispatch(fetchAsyncGetCustomer(i));
                     }}

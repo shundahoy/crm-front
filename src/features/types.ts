@@ -2,6 +2,7 @@ export interface LOGIN_USER {
   id: number;
   name: string;
   email: string;
+  isloading: boolean;
 }
 export interface JWT {
   jwt: string;
@@ -102,4 +103,9 @@ export interface POST_PRODUCT {
   name: string;
   memo: string;
   price: number;
+}
+
+export interface CHART {
+  date: string;
+  sum: string;
 }

@@ -11,6 +11,7 @@ import {
   selectProducts,
   updateProduct,
 } from "../features/product/productSlice";
+import { endLoading, startLoading } from "../features/auth/authSlice";
 
 const ProductPage = () => {
   const updateNotify = () => toast(`保存しました。`);
@@ -19,7 +20,9 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchBootLoader = async () => {
+      await dispatch(startLoading());
       await dispatch(fetchAsyncGetProducts());
+      await dispatch(endLoading());
     };
     fetchBootLoader();
   }, []);

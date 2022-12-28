@@ -26,6 +26,7 @@ import {
 import { POST_PRODUCTS, SEARCH_RESULT } from "../features/types";
 import OrderPageNation from "../components/OrderPageNation";
 import axios from "axios";
+import { endLoading, startLoading } from "../features/auth/authSlice";
 
 const OrderPage = () => {
   const updateNotify = () => toast(`保存しました。`);
@@ -34,6 +35,7 @@ const OrderPage = () => {
 
   useEffect(() => {
     const fetchBootLoader = async () => {
+      await dispatch(startLoading());
       await dispatch(fetchAsyncGetProducts());
       await dispatch(fetchAsyncGetStatus());
       await dispatch(fetchAsyncGetOrders(1));
@@ -48,6 +50,7 @@ const OrderPage = () => {
           allProducts: res.data,
         })
       );
+      dispatch(endLoading());
     };
     fetchBootLoader();
   }, []);

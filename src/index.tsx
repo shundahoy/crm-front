@@ -11,6 +11,7 @@ import AuthPage from "./pages/AuthPage";
 import CustomerPage from "./pages/CustomerPage";
 import OrderPage from "./pages/OrderPage";
 import ProductPage from "./pages/ProductPage";
+import ChartPage from "./pages/ChartPage";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -24,6 +25,7 @@ root.render(
           <Route path="/customer" element={<CustomerPage />} />
           <Route path="/order" element={<OrderPage />} />
           <Route path="/product" element={<ProductPage />} />
+          <Route path="/chart" element={<ChartPage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
