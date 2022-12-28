@@ -51,7 +51,6 @@ export const fetchAsyncGetMyProf = createAsyncThunk(
       {
         headers: {
           Authorization: `Bearer ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
         },
       }
     );

@@ -62,7 +62,6 @@ const ChartPage = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.localJWT}`,
-            "Content-Type": "application/json",
           },
         }
       );
@@ -71,7 +70,6 @@ const ChartPage = () => {
         {
           headers: {
             Authorization: `Bearer ${localStorage.localJWT}`,
-            "Content-Type": "application/json",
           },
         }
       );

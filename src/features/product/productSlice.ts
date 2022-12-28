@@ -27,7 +27,6 @@ export const fetchAsyncGetProducts = createAsyncThunk(
       {
         headers: {
           Authorization: `Bearer ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
         },
       }
     );

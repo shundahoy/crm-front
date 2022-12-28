@@ -39,7 +39,6 @@ export const fetchAsyncGetOrders = createAsyncThunk(
       {
         headers: {
           Authorization: `Bearer ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
         },
       }
     );
@@ -51,7 +50,6 @@ export const fetchAsyncGetStatus = createAsyncThunk("getStatus", async () => {
   const res = await axios.get(`${process.env.REACT_APP_API_URL}/status`, {
     headers: {
       Authorization: `Bearer ${localStorage.localJWT}`,
-      "Content-Type": "application/json",
     },
   });
   return res.data;

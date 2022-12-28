@@ -42,7 +42,6 @@ const OrderPage = () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/product/`, {
         headers: {
           Authorization: `Bearer ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
         },
       });
       await dispatch(
@@ -77,7 +76,6 @@ const OrderPage = () => {
       {
         headers: {
           Authorization: `Bearer ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
         },
       }
     );

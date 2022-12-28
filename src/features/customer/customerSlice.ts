@@ -29,7 +29,6 @@ export const fetchAsyncGetCustomer = createAsyncThunk(
       {
         headers: {
           Authorization: `Bearer ${localStorage.localJWT}`,
-          "Content-Type": "application/json",
         },
       }
     );
@@ -43,7 +42,6 @@ export const fetchAsyncGetProgress = createAsyncThunk(
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/progress`, {
       headers: {
         Authorization: `Bearer ${localStorage.localJWT}`,
-        "Content-Type": "application/json",
       },
     });
     return res.data;
